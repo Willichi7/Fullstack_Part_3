@@ -6,8 +6,8 @@ const date = Date('en-US')
 app.use(express.json())
 
 
-app.get('*', (req, res) => {
-   res.sendFile(path.join(__dirname, 'frontend/dist/index.html'));
+app.get('*', (_, res) => {
+   res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
  });
 const persons = [
    { 
