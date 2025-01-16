@@ -4,7 +4,11 @@ const morgan = require('morgan')
 const date = Date('en-US')
 
 app.use(express.json())
-app.use(express.static('dist'))
+app.use(express.static(path.join(__dirname, 'frontend/dist')));
+
+app.get('*', (req, res) => {
+   res.sendFile(path.join(__dirname, 'frontend/dist/index.html'));
+ });
 const persons = [
    { 
      "id": "1",
@@ -35,7 +39,7 @@ app.use(morgan(':method :url :status :response-time ms - :body '))
 
 
 app.get('/info', (req, res) => {
-   res.send(`<p>Phonebook has info for ${persons?.length}</p> <p> ${date}</p>`)
+   res.send(`<p>Phonebook has info for ${persons?.length} people</p><p>${date}</p>`)
 })
 
 app.get('/api/persons', (req, res) => {
