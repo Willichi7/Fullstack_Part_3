@@ -5,9 +5,9 @@ const date = Date('en-US')
 
 app.use(express.json())
 
-
+app.use(express.static(path.join(__dirname, '/frontend/dist')));
 app.get('*', (_, res) => {
-   res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+   res.sendFile(path.join(__dirname, '/frontend/dist/index.html'));
  });
 const persons = [
    { 
