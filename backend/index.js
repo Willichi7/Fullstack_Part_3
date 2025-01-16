@@ -2,9 +2,9 @@ const express = require('express')
 const app = express()
 const morgan = require('morgan')
 const date = Date('en-US')
+
 app.use(express.json())
-
-
+app.use(express.static('dist'))
 const persons = [
    { 
      "id": "1",
@@ -84,7 +84,6 @@ app.delete('/api/persons/:id', (req, res) => {
    const person = persons.filter(person => person.id !== id)
    res.status(204).end()
    console.log(person)
-   res.json(person)
 })
 
 const PORT = 3001
