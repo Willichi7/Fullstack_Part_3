@@ -2,14 +2,12 @@ const express = require('express')
 const app = express()
 const morgan = require('morgan')
 const date = Date('en-US')
-const path = require('path')
+
 
 app.use(express.json())
 
-app.use(express.static(path.join(__dirname, '/frontend/dist')));
-app.get('*', (_, res) => {
-   res.sendFile(path.join(__dirname, '/frontend/dist'));
- });
+
+
 const persons = [
    { 
      "id": "1",
