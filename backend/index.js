@@ -4,7 +4,7 @@ const morgan = require('morgan')
 const date = Date('en-US')
 
 app.use(express.json())
-app.use(express.static('dist'))
+app.use(express.static(path.join(__dirname, 'frontend/dist')));
 const persons = [
    { 
      "id": "1",
