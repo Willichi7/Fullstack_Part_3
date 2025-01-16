@@ -3,9 +3,9 @@ const app = express()
 const morgan = require('morgan')
 const date = Date('en-US')
 
+app.use(express.static('dist'))
 
 app.use(express.json())
-
 
 
 const persons = [
