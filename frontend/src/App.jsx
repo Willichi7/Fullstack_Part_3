@@ -16,13 +16,13 @@ export const PersonForm = ({ onSubmit, newName, newPhone, handleNameChange, hand
   return (
     <form onSubmit={onSubmit}>
       <div>
-        name: <input type='text' value={newName} onChange={handleNameChange} />
+        name: <input type='text' value={newName} onChange={handleNameChange} placeholder='name' />
       </div>
       <div>
-        number: <input type='text' value={newPhone} onChange={handlePhoneChange} />
+        number: <input type='text' value={newPhone} onChange={handlePhoneChange} placeholder='0x-xxxxxx'/>
       </div>
       <div>
-        <button type="submit">add</button>
+        <button type="submit" >add</button>
       </div>
     </form>
   )
@@ -33,7 +33,8 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newPhone, setNewPhone] = useState('')
   const [filter, setFilter] = useState('')
-  const [message , setMessage] = useState('')
+  const [message , setMessage] = useState(null)
+  const [type, setType] = useState(null);
 
   useEffect(() => {
     console.log('effect')
@@ -50,22 +51,52 @@ const App = () => {
   const addPhone = (nameObject) => { 
     const isExist = persons.find(person => person.name === newName)
     if(isExist){
-      alert(`${isExist.name} is already added to phonebook, name must be unique`) 
-    }
+      if(window.confirm(`${isExist.name} is already added to phonebook, will you like to change the phone number`)){
+        const changedPerson = {...isExist, number: newPhone }
 
-  personService
-    .create(nameObject)
-    .then(newPerson => {
-      setPersons(persons.concat(newPerson))
-      setMessage(`Added ${nameObject.name} `)
-      setTimeout(() => {
-        setMessage(null)
-       },5000)
-      setNewName('')
-      setNewPhone('')
-       
-    })
-     
+        personService
+        .update(isExist.id, changedPerson)
+        .then(returnedPerson => {
+          setPersons(persons.map(n => n.id === isExist.id ? returnedPerson : n ))
+          setMessage(
+            `${isExist.name} details are updated successfully`, 
+          )
+          setType('success')
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
+        })
+        .catch(error => {
+          setMessage(
+            `${isExist.name} was already removed from server`, error
+          )
+          setType('error')
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
+        })
+      }
+    }else{
+       personService
+        .create(nameObject)
+        .then(newPerson => {
+          setPersons(persons.concat(newPerson))
+          setMessage(`Added ${nameObject.name} `)
+          setType('success')
+          setTimeout(() => {
+            setMessage(null)
+          },5000)
+          setNewName('')
+          setNewPhone('')     
+        }).catch(error => {
+          setMessage(error.response.data.error)
+          setType('error')
+          console.log(error.response.data.error)
+          setTimeout(() => {
+            setMessage(null)
+          },8000)
+        })
+    }      
   }
 
   const handleNameChange = (e) => {
@@ -102,7 +133,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification  message={message}/>
+      <Notification  message={message} type={type}/>
 
       <Filter filter={filter} onChange={handleFilterChange} />
 
