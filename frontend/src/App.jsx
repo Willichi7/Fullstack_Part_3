@@ -16,7 +16,7 @@ export const PersonForm = ({ onSubmit, newName, newPhone, handleNameChange, hand
   return (
     <form onSubmit={onSubmit}>
       <div>
-        name: <input type='text' value={newName} onChange={handleNameChange} placeholder='name' />
+        name: <input type='text' value={newName} onChange={handleNameChange} placeholder='Name' />
       </div>
       <div>
         number: <input type='text' value={newPhone} onChange={handlePhoneChange} placeholder='0x-xxxxxx'/>
