@@ -29,19 +29,25 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: Install dependencies
+      - name: Install frontend dependencies
         run: |
-            cd backend
-            npm install
+          cd frontend
+          npm install
+
+      - name: Install backend dependencies
+        run: |
+          cd backend
+          npm install
+
       - name: Run Build
         run: |
-           cd backend 
-           npm run build:ui
+          cd backend 
+          npm run build:ui
 
       - name: Start
         run: |
-           cd backend
-           npm start index.js
+          cd backend
+          npm start index.js
 
       - name: Notify Test Success
         if: success()
