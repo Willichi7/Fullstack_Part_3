@@ -76,7 +76,7 @@ jobs:
 
   deploy_to_render:
     name: Deploy to Render
-    needs: simple_deployment_pipeline
+    needs: simple_deployment_phonebook
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
