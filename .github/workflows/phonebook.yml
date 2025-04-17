@@ -30,13 +30,18 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Install dependencies
-        run: npm install
-
+        run: |
+            cd backend
+            npm install
       - name: Run Build
-        run: npm run build:ui
+        run: |
+           cd backend 
+           npm run build:ui
 
       - name: Start
-        run: npm start index.js
+        run: |
+           cd backend
+           npm start index.js
 
       - name: Notify Test Success
         if: success()
