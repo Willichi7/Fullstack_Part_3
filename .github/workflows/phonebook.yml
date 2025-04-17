@@ -47,7 +47,7 @@ jobs:
       - name: Start
         run: |
           cd backend
-          npm start index.js
+          npm start
         env:
           MONGODB_URI: ${{ secrets.MONGO_URI }}
 
