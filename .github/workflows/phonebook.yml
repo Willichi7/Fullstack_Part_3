@@ -49,7 +49,7 @@ jobs:
           cd backend
           npm start index.js
         env:
-          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          MONGODB_URI: ${{ secrets.MONGO_URI }}
 
 
       - name: Notify Test Success
