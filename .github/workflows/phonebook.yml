@@ -10,7 +10,7 @@ on:
 
 jobs:
   simple_deployment_phonebook:
-    name: Build, Start
+    name: Build and Prepare App
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -34,23 +34,30 @@ jobs:
           cd frontend
           npm install
 
+      - name: Build frontend
+        run: |
+          cd frontend
+          npm run build
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }} 
+
+      - name: Copy frontend build to backend
+        run: |
+          rm -rf backend/dist
+          cp -r frontend/dist backend/
+
       - name: Install backend dependencies
         run: |
           cd backend
           npm install
 
-      - name: Run Build
-        run: |
-          cd backend 
-          npm run build:ui
-
-      - name: Start
+      - name: Start server
         run: |
           cd backend
-          npm start
+          npm start &
+          sleep 5 # Optional: give it a moment to start
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
-
 
       - name: Notify Test Success
         if: success()
